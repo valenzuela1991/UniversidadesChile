@@ -1,0 +1,61 @@
+#scrapy runspider Universidad.py
+
+from scrapy.spiders import CrawlSpider
+from scrapy.spiders import Rule
+from scrapy.linkextractors import LinkExtractor
+from bs4 import BeautifulSoup
+
+class UniversidadAntofagastaCrawler(CrawlSpider):
+    name = 'Universidad de Antofagasta'
+    allowed_domains = ['transparencia.uantof.cl']
+    start_urls = ['http://transparencia.uantof.cl/index.php?action=plantillas_selec_fecha&ig=21', #Personal Planta
+                  'http://transparencia.uantof.cl/index.php?action=plantillas_selec_fecha&ig=22'] #Personal Contrata
+
+    #comportamiento del crawl
+    rules = (
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('//*[@id="columna1_interiores"]/p[1]/a')),follow= True),
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('/html//body')), callback='parse_items')
+    )
+
+    def parse_items(self, response):
+            milista = []
+            #Extraemos el codigo de la tabla
+            InfoTabla = response.xpath('//*[@id="batalla"]').extract_first()
+            soup = BeautifulSoup(InfoTabla)
+            #separamos los datos de la tabla por td
+            line = soup.select('td')
+
+            idUni = 1
+            for i, y in enumerate(line):
+                palabra = y.next_element
+                milista.append(palabra)
+                # GUARDAMOS LOS DATOS DE LA TABLA
+                v = 0
+
+            while palabra != '':
+                # DATOS OBTENIDOS DE LA PAGINA
+                id = milista[(16*v)+0]
+                Nombre = milista[(16*v)+4]
+                ApellidoP = milista[(16*v)+2]
+                ApellidoM = milista[(16*v)+3]
+                Remuneracion_Bruta = milista[(16*v)+11]
+                Estamento = milista[(16*v)+1]
+                Funcion = milista[(16*v)+7]
+                Universidad = response.xpath('normalize-space(//*[@id="footer"]/div/table/tbody/tr[1]/td/h1/text())').extract()
+                Fecha = response.xpath('normalize-space(//*[@id="menu_top"]/div/text()[2])').extract()
+
+                print "-----Datos Persona-----"
+                print "Nombre :", Nombre, "."
+                print "Apellido Paterno :", ApellidoP, "."
+                print "Apellido Materno :", ApellidoM, "."
+                print "Remuneracion Bruta Mensual :", Remuneracion_Bruta, "."
+                print "Estamento :", Estamento, "."
+                print "Funcion :", Funcion, "."
+                print "Universidad :", Universidad, "."
+                print "Fecha :", Fecha, "."
+                print "------------------------------"
+                print "------------------------------"
+
+                v += 1
+
+#scrapy runspider Universidad.py
