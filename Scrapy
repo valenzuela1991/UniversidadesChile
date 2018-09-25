@@ -34,6 +34,10 @@ class UniversidadAntofagastaCrawler(CrawlSpider):
 
             while palabra != '':
                 # DATOS OBTENIDOS DE LA PAGINA
+                
+                #Revisar
+                #Tipo = response.xpath('normalize-space(//*[@id="detalle_content"]/h4/text())').extract()
+                
                 id = milista[(16*v)+0]
                 Nombre = milista[(16*v)+4]
                 ApellidoP = milista[(16*v)+2]
