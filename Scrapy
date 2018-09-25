@@ -36,7 +36,7 @@ class UniversidadAntofagastaCrawler(CrawlSpider):
                 # DATOS OBTENIDOS DE LA PAGINA
                 
                 #Revisar
-                #Tipo = response.xpath('normalize-space(//*[@id="detalle_content"]/h4/text())').extract()
+                Tipo = response.xpath('normalize-space(//*[@id="detalle_content"]/h4/text())').extract()
                 
                 id = milista[(16*v)+0]
                 Nombre = milista[(16*v)+4]
@@ -49,6 +49,7 @@ class UniversidadAntofagastaCrawler(CrawlSpider):
                 Fecha = response.xpath('normalize-space(//*[@id="menu_top"]/div/text()[2])').extract()
 
                 print "-----Datos Persona-----"
+                print "Tipo :", Tipo, "."
                 print "Nombre :", Nombre, "."
                 print "Apellido Paterno :", ApellidoP, "."
                 print "Apellido Materno :", ApellidoM, "."
