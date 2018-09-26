@@ -4,6 +4,25 @@ from scrapy.spiders import CrawlSpider
 from scrapy.spiders import Rule
 from scrapy.linkextractors import LinkExtractor
 from bs4 import BeautifulSoup
+import sqlite3 as sqlite
+
+#Ingresar / crear base de datos
+nombre_db = "UniversidadAntofagasta.db"
+cursor = sqlite.connect(nombre_db)
+
+cursor.execute("CREATE TABLE IF NOT EXISTS datos("
+               "nombre VARCHAR(40) NOT NULL,"
+               "apellidoP VARCHAR(40) NOT NULL,"
+               "apellidoM VARCHAR(40) NOT NULL,"
+               "tipo VARCHAR(40) NOT NULL,"
+               "remuneraciones VARCHAR(40) NOT NULL,"
+               "estamento VARCHAR(40) NOT NULL,"
+               "funcion VARCHAR(40) NOT NULL,"
+               "universidad INTEGER NOT NULL,"
+               "fecha VARCHAR(40) NOT NULL)"
+               )
+#nombre,apellidoP,apellidoM,tipo,remuneraciones,estamento,funcion,universidad,fecha
+cursor.commit()
 
 class UniversidadAntofagastaCrawler(CrawlSpider):
     name = 'Universidad de Antofagasta'
@@ -34,32 +53,43 @@ class UniversidadAntofagastaCrawler(CrawlSpider):
 
             while palabra != '':
                 # DATOS OBTENIDOS DE LA PAGINA
-                
-                #Revisar
-                Tipo = response.xpath('normalize-space(//*[@id="detalle_content"]/h4/text())').extract()
-                
-                id = milista[(16*v)+0]
+
                 Nombre = milista[(16*v)+4]
                 ApellidoP = milista[(16*v)+2]
                 ApellidoM = milista[(16*v)+3]
+                Tipo = response.xpath('normalize-space(//*[@id="detalle_content"]/h4/text())').extract()
                 Remuneracion_Bruta = milista[(16*v)+11]
                 Estamento = milista[(16*v)+1]
                 Funcion = milista[(16*v)+7]
                 Universidad = response.xpath('normalize-space(//*[@id="footer"]/div/table/tbody/tr[1]/td/h1/text())').extract()
                 Fecha = response.xpath('normalize-space(//*[@id="menu_top"]/div/text()[2])').extract()
 
+                # Convertimos los xpath en string para guardarlos en la base de datos.
+                insTipo = " ".join(Tipo)
+                insUniversidad = " ".join(Universidad)
+                insFecha = " ".join(Fecha)
+
+                datosUniversidad = (
+                    Nombre, ApellidoP, ApellidoM, insTipo, Remuneracion_Bruta, Estamento, Funcion,
+                    insUniversidad, insFecha)
+
                 print "-----Datos Persona-----"
-                print "Tipo :", Tipo, "."
                 print "Nombre :", Nombre, "."
                 print "Apellido Paterno :", ApellidoP, "."
                 print "Apellido Materno :", ApellidoM, "."
+                print "Tipo: ", insTipo, "."
                 print "Remuneracion Bruta Mensual :", Remuneracion_Bruta, "."
                 print "Estamento :", Estamento, "."
                 print "Funcion :", Funcion, "."
-                print "Universidad :", Universidad, "."
-                print "Fecha :", Fecha, "."
+                print "Universidad :", insUniversidad, "."
+                print "Fecha :", insFecha, "."
                 print "------------------------------"
                 print "------------------------------"
+
+                cursor.execute(
+                    "INSERT INTO datos(nombre,apellidoP,apellidoM,tipo,remuneraciones,estamento,funcion,universidad,fecha)"
+                    "VALUES(?,?,?,?,?,?,?,?,?);", (datosUniversidad))
+                cursor.commit()
 
                 v += 1
 
