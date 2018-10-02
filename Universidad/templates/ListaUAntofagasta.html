@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>Informacion Personas</title>
+</head>
+    <center>
+    <th>Personal Universidad de Antofagasta</th></center>
+       <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido P</th>
+                    <th>Apellido M</th>
+                    <th>Tipo</th>
+                    <th>Remuneracion</th>
+                    <th>Estamento</th>
+                    <th>Funcion</th>
+                    <th>Universidad</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Informacion</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% if persona %}
+                {% for datos in persona %}
+                <tr>
+                    <th>{{ datos.nombre }}</th>
+                    <th>{{ datos.apellidoP }}</th>
+                    <th>{{ datos.apellidoM }}</th>
+                    <th>{{ datos.tipo }}</th>
+                    <th>{{ datos.remuneraciones }}</th>
+                    <th>{{ datos.estamento }}</th>
+                    <th>{{ datos.funcion }}</th>
+                    <th>{{ datos.universidad }}</th>
+                    <th>{{ datos.fecha_Ingreso }}</th>
+                    <th>{{ datos.fecha_Informacion }}</th>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <h1>No hay registros de solicitudes</h1>
+                {% endif %}
+            </tbody>
+        </table>
+</body>
+</html>
