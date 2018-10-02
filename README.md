@@ -1,6 +1,6 @@
-## Welcome to GitHub Pages
+## UniversidadesChile App
 
- can use the [editor on GitHub](https://github.com/valenzuela1991/UniversidadesChile/edit/master/README.md) to maintain and preview the content for your website in Markdown files
+ Utilizamos datos de la [Ley de Transparencia](https://www.leychile.cl/Navegar?idNorma=276363&tipoVersion=0) para mostrar datos de personas contratadas en la administración pública, en concreto en Universidades Regionales.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
