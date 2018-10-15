@@ -8,7 +8,7 @@
     <input type="button" class="btn btn-primary" value="Volver" onclick = "location='/'"/>
 </head>
     <center>
-    <th>Personal Universidad de Antofagasta</th></center>
+    <th>Personal Universidad Tecnológica Metropolitana</th></center>
        <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -29,7 +29,7 @@
                 {% if persona %}
                 {% for datos in persona %}
                 <tr>
-                    {% if datos.universidad == "UNIVERSIDAD DE ANTOFAGASTA" %}
+                    {% if datos.universidad == "Universidad Tecnológica Metropolitana (UTEM)" %}
                     <th>{{ datos.nombre }}</th>
                     <th>{{ datos.apellidoP }}</th>
                     <th>{{ datos.apellidoM }}</th>
