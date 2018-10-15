@@ -1,10 +1,11 @@
 from django.conf.urls import url , include
 from django.contrib import admin
-from Apps.Mostrar.views import ListaUAntofagasta , inicio
-#from Apps.Mostrar.views import *
+from Apps.Mostrar.views import inicio, ListaUAntofagasta , ListaUSACH, ListaUTEM
 
 
 urlpatterns = [
-    url(r'^lista', ListaUAntofagasta),
-    url(r'^inicio', inicio),
-]
+    url(r'^$', inicio),
+    url(r'^listaAntofagasta', ListaUAntofagasta),
+    url(r'^listaUSACH', ListaUSACH),
+    url(r'^listaUTEM', ListaUTEM),
+    ]
